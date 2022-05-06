@@ -1,6 +1,5 @@
 #https://hn.algolia.com/api/v1/search_by_date?query=nodejs
 #http://127.0.0.1:3000/news?search=batiste
 
-DELETE 
-http://127.0.0.1:3000/news/848
+
 
