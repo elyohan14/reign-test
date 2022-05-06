@@ -9,6 +9,9 @@ export class New {
   created_at: Date;
 
   @Column({ nullable: true })
+  deleted_at: Date;
+
+  @Column({ nullable: true })
   title: string;
 
   @Column({ nullable: true })

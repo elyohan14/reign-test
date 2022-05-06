@@ -22,15 +22,21 @@ export class NewsService {
   }
 
   async findAll(search: string): Promise<New[]> {
-    // return this.newsRepository.find();
+    let where = {};
+    if (search) {
+      where = [
+        { author: Like(`%${search}%`), deleted_at: null },
+        { title: search, deleted_at: null },
+        { _tags: search, deleted_at: null },
+      ];
+    } else {
+      where = { deleted_at: null };
+    }
+
     const [data] = await this.newsRepository.findAndCount({
       take: 5,
       skip: 0,
-      where: [
-        { author: Like(`%${search}%`) },
-        { title: search },
-        { _tags: search },
-      ],
+      where,
     });
     return data;
   }
@@ -43,16 +49,16 @@ export class NewsService {
     return `This action updates a #${id} news`;
   }
 
-  async remove(id: string): Promise<void> {
-    await this.newsRepository.delete(id);
+  async remove(id: string): Promise<string> {
+    await this.newsRepository.update(id, { deleted_at: new Date() });
+    return 'success';
   }
   /**
-   * Cron every 5 seconds
+   * Cron every hour
    */
-  @Cron('*/5 * * * * *')
+  @Cron('0 */1 * * * *')
   async handleCron() {
     const data = await this.getHackerNews();
-    // console.log(data.hits.length);
     await this.create(data);
   }
   /**
