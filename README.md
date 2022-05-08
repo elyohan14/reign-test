@@ -32,6 +32,11 @@
 $ npm install
 ```
 
+## Setting up a Database
+### PostgreSQL
+
+Create a database and set the parameters in the `ormconfig.json` file.
+
 ## Running the app
 
 ```bash

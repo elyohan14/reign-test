@@ -54,6 +54,14 @@ export class NewsService {
     return 'success';
   }
   /**
+   * Cron first and unique time
+   */
+  @Cron(new Date(Date.now() + 5 * 1000))
+  async handleCron2() {
+    const data = await this.getHackerNews();
+    await this.create(data);
+  }
+  /**
    * Cron every hour
    */
   @Cron('0 */1 * * * *')
